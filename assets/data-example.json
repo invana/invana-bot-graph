@@ -1,0 +1,364 @@
+{
+  "cti_id": "amazon_product_detail2",
+  "init_crawler": {
+    "start_urls": [
+      "https://www.bing.com/search?q=amazon.com+733739080813"
+    ],
+    "crawler_id": "amazon_product_search_in_bing"
+  },
+  "crawlers": [
+    {
+      "crawler_id": "amazon_product_search_in_bing",
+      "parsers": [
+        {
+          "parser_type": "HTMLMetaTagExtractor",
+          "parser_name": "meta_tags"
+        },
+        {
+          "parser_type": "CustomContentExtractor",
+          "parser_name": "product_detail_parser",
+          "data_selectors": [
+            {
+              "selector_id": "title",
+              "selector": "#productTitle",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "image",
+              "selector": "#landingImage",
+              "selector_type": "css",
+              "selector_attribute": "src",
+              "multiple": false
+            },
+            {
+              "selector_id": "price",
+              "selector": "#priceblock_ourprice",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "brand",
+              "selector": "#bylineInfo",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "sizes",
+              "selector": ".twisterShelf_swatch_text",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "description",
+              "selector": "#productDescription p",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "product_details",
+              "selector": "#detail-bullets li",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "about_product",
+              "selector": ".showHiddenFeatureBullets",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "ingredients",
+              "selector": "#important-information p",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "features",
+              "selector": "#fbExpandableSectionContent .a-list-item",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "features_template2",
+              "selector": "#feature-bullets .a-list-item",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            }
+          ]
+        },
+        {
+          "parser_type": "CustomContentExtractor",
+          "parser_name": "bing_search_results_parser",
+          "data_selectors": [
+            {
+              "selector_id": "search_results",
+              "selector": ".b_ad+ .b_algo",
+              "selector_attribute": "element",
+              "multiple": true,
+              "child_selectors": [
+                {
+                  "selector_id": "url",
+                  "selector": ".b_algo a",
+                  "selector_type": "css",
+                  "selector_attribute": "href",
+                  "multiple": false,
+                  "traversals": [
+                    {
+                      "crawler_id": "amazon_product_detail"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "selector_id": "title",
+              "selector": "#title",
+              "selector_attribute": "text",
+              "multiple": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "crawler_id": "amazon_product_detail",
+      "parsers": [
+        {
+          "parser_type": "HTMLMetaTagExtractor",
+          "parser_name": "meta_tags"
+        },
+        {
+          "parser_type": "ParagraphExtractor",
+          "parser_name": "paragraphs"
+        },
+        {
+          "parser_type": "CustomContentExtractor",
+          "parser_name": "product_detail_parser",
+          "data_selectors": [
+            {
+              "selector_id": "title",
+              "selector": "#productTitle",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "image",
+              "selector": "#landingImage",
+              "selector_type": "css",
+              "selector_attribute": "src",
+              "multiple": false
+            },
+            {
+              "selector_id": "price",
+              "selector": "#priceblock_ourprice",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "brand",
+              "selector": "#bylineInfo",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": false
+            },
+            {
+              "selector_id": "sizes",
+              "selector": ".twisterShelf_swatch_text",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "description",
+              "selector": "#productDescription p",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "product_details",
+              "selector": "#detail-bullets li",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "about_product",
+              "selector": ".showHiddenFeatureBullets",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "ingredients",
+              "selector": "#important-information p",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "features",
+              "selector": "#fbExpandableSectionContent .a-list-item",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            },
+            {
+              "selector_id": "features_template2",
+              "selector": "#feature-bullets .a-list-item",
+              "selector_type": "css",
+              "selector_attribute": "text",
+              "multiple": true
+            }
+          ]
+        },
+        {
+          "parser_type": "CustomContentExtractor",
+          "parser_name": "amazon_product_review_link",
+          "data_selectors": [
+            {
+              "selector_id": "review_links",
+              "selector": "#reviews-medley-footer",
+              "selector_attribute": "element",
+              "multiple": true,
+              "child_selectors": [
+                {
+                  "selector_id": "url",
+                  "selector": ".a-text-bold",
+                  "selector_type": "css",
+                  "selector_attribute": "href",
+                  "multiple": false,
+                  "traversals": [
+                    {
+                      "crawler_id": "amazon_reviews_list"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "selector_id": "title",
+              "selector": "#title",
+              "selector_attribute": "text",
+              "multiple": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "crawler_id": "amazon_reviews_list",
+      "parsers": [
+        {
+          "parser_type": "PaginationExtractor",
+          "parser_name": "pagination",
+          "data_selectors": [
+            {
+              "selector_id": "url",
+              "selector": ".a-last a",
+              "selector_type": "css",
+              "selector_attribute": "href",
+              "multiple": false,
+              "traversals": [
+              ]
+            }
+          ]
+        },
+        {
+          "parser_type": "CustomContentExtractor",
+          "parser_name": "reviews_data",
+          "data_selectors": [
+            {
+              "selector_id": "reviews",
+              "selector": ".review",
+              "selector_attribute": "element",
+              "multiple": true,
+              "child_selectors": [
+                {
+                  "selector_id": "title",
+                  "selector": ".review-title-content span",
+                  "selector_type": "css",
+                  "selector_attribute": "text",
+                  "multiple": false
+                },
+                {
+                  "selector_id": "rating",
+                  "selector": ".review-rating span",
+                  "selector_type": "css",
+                  "selector_attribute": "text",
+                  "multiple": false
+                },
+                {
+                  "selector_id": "review_date",
+                  "selector": ".review-date",
+                  "selector_type": "css",
+                  "selector_attribute": "text",
+                  "multiple": false
+                },
+                {
+                  "selector_id": "text",
+                  "selector": ".review-text-content span",
+                  "selector_type": "css",
+                  "selector_attribute": "text",
+                  "multiple": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "transformations": [
+    {
+      "transformation_id": "default",
+      "transformation_fn": "transformation_fn"
+    }
+  ],
+  "indexes": [
+    {
+      "index_id": "default",
+      "transformation_id": "default",
+      "connection_uri": "mongodb://127.0.0.1/crawlers_data_index",
+      "collection_name": "amazon_product_detail",
+      "unique_key": "url"
+    }
+  ],
+  "callbacks": [
+    {
+      "callback_id": "default",
+      "index_id": "default",
+      "url": "http://localhost/api/callback",
+      "request_type": "POST",
+      "payload": {
+      },
+      "headers": {
+        "X-TOKEN": "abc123456789"
+      }
+    }
+  ],
+  "settings": {
+    "allowed_domains": [
+      "bing.com",
+      "amazon.com"
+    ],
+    "download_delay": 1
+  },
+  "context": {
+    "author": "https://github.com/rrmerugu",
+    "description": "Crawler that scrapes invanalabs xyz"
+  }
+}

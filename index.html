@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CTI Flow</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" type="text/css" href="assets/styles.css">
+
+
+    <link href="https://getbootstrap.com/docs/4.3/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <script src="assets/vendors/jquery-latest.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script src="https://getbootstrap.com/docs/4.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+            crossorigin="anonymous"></script>
+    <script src="assets/vendors/d3.v3.min.js" type="text/javascript"></script>
+    <script src="assets/utils.js" type="text/javascript"></script>
+    <script src="assets/overview-graph.js" type="text/javascript"></script>
+    <script src="assets/overview.js" type="text/javascript"></script>
+    <script src="assets/traversal-graph.js" type="text/javascript"></script>
+    <script src="assets/traversal.js" type="text/javascript"></script>
+</head>
+<body>
+
+<!--https://bl.ocks.org/swayvil/b86f8d4941bdfcbfff8f69619cd2f460-->
+<div class="shadow-sm">
+
+
+    <div class="full-width-tabs ">
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="active p-2 text-dark" id="nav-editor-tab" data-toggle="tab" href="#nav-editor" role="tab"
+                   aria-controls="nav-editor" aria-selected="true">Editor</a>
+                <a class="p-2 text-dark" id="nav-overview-graph-tab" data-toggle="tab" href="#nav-overview-graph"
+                   role="tab"
+                   aria-controls="nav-overview-graph" aria-selected="false">Overview Graph</a>
+                <a class="p-2 text-dark" id="nav-traversal-graph-tab" data-toggle="tab" href="#nav-traversal-graph"
+                   role="tab"
+                   aria-controls="nav-traversal-graph" aria-selected="false">Traversal Graph</a>
+
+                <a class="p-2 text-dark">|</a>
+                <a class="p-2 text-dark" id="editor_status"></a>
+                <a class="p-2 text-dark" id="editor_submit_btn" href="#" onclick="validate_editor_config()">Validate</a>
+
+            </div>
+        </nav>
+
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-editor" role="tabpanel" aria-labelledby="nav-editor-tab">
+                <textarea name="" id="cti-flow-editor"></textarea>
+            </div>
+            <div class="tab-pane fade" id="nav-overview-graph" role="tabpanel" aria-labelledby="nav-overview-graph-tab">
+                <ct-visualization id="overview-graph"></ct-visualization>
+            </div>
+            <div class="tab-pane fade" id="nav-traversal-graph" role="tabpanel"
+                 aria-labelledby="nav-traversal-graph-tab">
+                <ct-visualization id="traversal-graph"></ct-visualization>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        var editor_el = document.getElementById("cti-flow-editor");
+        var editor_status_el = document.getElementById("editor_status");
+
+        d3.json("assets/data-example.json", function (error, data) {
+            try {
+                var pretty = JSON.stringify(data, undefined, 2);
+                editor_el.value = pretty;
+                editor_status_el.innerHTML = "<span class='valid'><i class=\"far fa-check-circle\"></i>  valid config</span>"
+            }
+            catch (e) {
+                editor_status_el.innerHTML = "<span class='invalid'><i class=\"far fa-times-circle\"></i>  invalid config</span>"
+            }
+        });
+
+        function validate_editor_config() {
+            var editor_config = editor_el.value;
+            try {
+
+                var pretty_config_pretty = JSON.parse(editor_config);
+                var pretty_config_pretty_string = JSON.stringify(pretty_config_pretty, undefined, 2);
+
+                editor_el.value = pretty_config_pretty_string;
+                editor_status_el.innerHTML = "<span class='valid'><i class=\"far fa-check-circle\"></i>  valid config</span>"
+            }
+            catch (e) {
+                editor_status_el.innerHTML = "<span class='invalid'><i class=\"far fa-times-circle\"></i>  invalid config</span>"
+            }
+        }
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href");
+            var edit_data = editor_el.value;
+            if ((target === '#nav-overview-graph')) {
+                draw_overview(JSON.parse(edit_data), "overview-graph");
+            } else if (target === '#nav-traversal-graph') {
+                draw_traversal(JSON.parse(edit_data), "traversal-graph");
+            }
+        });
+
+
+    </script>
+</div>
+</body>
+</html>
